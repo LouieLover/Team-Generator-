@@ -20,12 +20,12 @@ const questions = [{
         message: "Employees name"
     },
     {
-        name: "email",
-        message: "Email Address?"
+        name: "id",
+        message: "Employee id?"
     },
     {
-        name: "Employee id",
-        message: "Employee id?"
+        name: "email",
+        message: "Employee email?"
     },
 ];
 
@@ -66,7 +66,7 @@ function init() {
     inquirer.prompt([
         ...questions, ...managerQuestions
     ]).then((answers) => {
-        const manager = new Manager(answers.name, answers.email, answers["Employee id"], answers.officeNumber);
+        const manager = new Manager(answers.name, answers.id, answers.email, answers.officeNumber);
         console.log(manager);
         employees.push(manager);
         askRoleQuestions();
@@ -80,12 +80,11 @@ function askRoleQuestions() {
                 inquirer.prompt([
                     ...questions, ...engineerQuestions
                 ]).then((engineeranswers) => {
-                    const engineer = new Engineer(engineeranswers.name, engineeranswers.email, engineeranswers["Employee id"], engineeranswers.github);
+                    const engineer = new Engineer(engineeranswers.name, engineeranswers.id, engineeranswers.email, engineeranswers.github);
                     console.log(engineer)
                     employees.push(engineer);
                     if (answers) { askRoleQuestions(); } else {
                         const teamhtmlstring = render(employees);
-                        console.log(teamhtmlstring);
                         fs.writeFileSync(outputPath, teamhtmlstring);
                     }
                 });
@@ -94,12 +93,11 @@ function askRoleQuestions() {
                 inquirer.prompt([
                     ...questions, ...internQuestions,
                 ]).then((internanswers) => {
-                    const intern = new Intern(internanswers.name, internanswers.email, internanswers["Employee id"], internanswers.School);
+                    const intern = new Intern(internanswers.name, internanswers.id, internanswers.email, internanswers.School);
                     console.log(intern)
                     employees.push(intern);
                     if (answers.confirm) { askRoleQuestions(); } else {
                         const teamhtmlstring = render(employees);
-                        console.log(teamhtmlstring);
                         fs.writeFileSync(outputPath, teamhtmlstring);
                     }
                 });
