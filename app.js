@@ -9,10 +9,99 @@ const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
+const Choices = require("inquirer/lib/objects/choices");
 
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
+const employees = []
+
+const questions = [{
+        name: "name",
+        message: "Employees name"
+    },
+    {
+        name: "email",
+        message: "Email Address?"
+    },
+    {
+        name: "Employee id",
+        message: "Employee id?"
+    },
+];
+
+const roleQuestions = [{
+    type: "list",
+    name: "Role",
+    message: "Employee Role?",
+    choices: [
+        "engineer", "intern"
+    ]
+}];
+
+const managerQuestions = [{
+    name: "officeNumber",
+    message: "Managers office number?"
+}];
+
+const engineerQuestions = [{
+    name: "github",
+    message: "Github username?",
+}];
+
+const internQuestions = [{
+    name: "School",
+    message: "What School?",
+}];
+
+const confirm = [{
+    type: "confirm",
+    name: "add more",
+    message: "Any more employees??",
+}];
+
+function init() {
+    inquirer.prompt([
+        ...questions, ...managerQuestions
+    ]).then((answers) => {
+        const manager = new Manager(answers.name, answers.email, answers["Employee id"], answers.officeNumber);
+        console.log(manager);
+        employees.push(manager);
+        askRoleQuestions();
+    });
+}
+
+function askRoleQuestions() {
+    inquirer.prompt([...roleQuestions, ...confirm])
+        .then(answers => {
+            if (answers.Role === "engineer") {
+
+                inquirer.prompt([
+                    ...questions, ...engineerQuestions
+                ]).then((engineeranswers) => {
+                    const engineer = new Engineer(engineeranswers.name, engineeranswers.email, engineeranswers["Employee id"], engineeranswers.github);
+                    employees.push(engineer);
+                    if (answer.confirm) { askRoleQuestions() };
+                });
+
+            } else {
+                inquirer.prompt([
+                    ...questions, ...internQuestions
+                ]).then((internanswers) => {
+                    const intern = new Intern(internanswers.name, internanswers.email, internanswers["Employee id"], internanswers.school);
+                    employees.push(intern);
+                    if (confirm) { askRoleQuestions() };
+                });
+            }
+
+        });
+}
+init();
+
+function generate() {
+
+}
+
 
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
