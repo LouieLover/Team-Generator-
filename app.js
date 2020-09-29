@@ -14,7 +14,7 @@ const Choices = require("inquirer/lib/objects/choices");
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
-//const employees = [];
+const employees = [];
 
 const questions = [{
         name: "name",
@@ -81,7 +81,11 @@ function askRoleQuestions() {
                     const engineer = new Engineer(engineeranswers.name, engineeranswers.email, engineeranswers["Employee id"], engineeranswers.github);
                     console.log(engineer)
                     employees.push(engineer);
-                    if (answers) { askRoleQuestions(); }
+                    if (answers) { askRoleQuestions(); } else {
+                        const teamhtmlstring = render(employees);
+                        console.log(teamhtmlstring);
+                        fs.writeFileSync(outputPath, teamhtmlstring);
+                    }
                 });
             }
             if (answers.Role === "intern") {
@@ -91,7 +95,11 @@ function askRoleQuestions() {
                     const intern = new Intern(internanswers.name, internanswers.email, internanswers["Employee id"], internanswers.School);
                     console.log(intern)
                     employees.push(intern);
-                    if (answers.confirm) { askRoleQuestions(); }
+                    if (answers.confirm) { askRoleQuestions(); } else {
+                        const teamhtmlstring = render(employees);
+                        console.log(teamhtmlstring);
+                        fs.writeFileSync(outputPath, teamhtmlstring);
+                    }
                 });
             }
 
@@ -100,24 +108,11 @@ function askRoleQuestions() {
 init();
 
 
+// parsing an array
 
-function employees() {
-    //for loop
+//template
 
-    employees[i].getRole(Manager);
-    employees[i].getRole(Engineer);
-    employees[i].getRole(Intern);
 
-    for (getRole[i] = 0; i < a.length; i++) {
-        getRole[i] = answers[i];
-    }
-
-    // parsing an array
-
-    //template
-
-    //html
-}
 
 
 
